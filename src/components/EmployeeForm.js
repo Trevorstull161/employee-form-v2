@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EmployeeForm.css';
 
 function EmployeeForm() {
@@ -13,6 +13,19 @@ function EmployeeForm() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
+  // Load saved form data from localStorage on initial render
+  useEffect(() => {
+    const savedData = localStorage.getItem('employeeFormData');
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  // Save form data to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('employeeFormData', JSON.stringify(formData));
+  }, [formData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -26,7 +39,6 @@ function EmployeeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (
       formData.firstName.trim() === '' ||
       formData.lastName.trim() === '' ||
@@ -43,7 +55,7 @@ function EmployeeForm() {
     setSubmitted(true);
     setError(false);
 
-    // Reset the form
+    // Clear form and local storage
     setFormData({
       firstName: '',
       lastName: '',
@@ -51,6 +63,7 @@ function EmployeeForm() {
       jobTitle: '',
       department: ''
     });
+    localStorage.removeItem('employeeFormData');
   };
 
   return (
@@ -86,4 +99,3 @@ function EmployeeForm() {
 }
 
 export default EmployeeForm;
-
