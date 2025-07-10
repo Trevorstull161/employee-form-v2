@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './EmployeeForm.css';
 
-function EmployeeForm() {
+function EmployeeForm({ onSubmit }) {
   // Initialize form state from localStorage if it exists
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('employeeFormData');
-    return saved ? JSON.parse(saved) : {
-      firstName: '',
-      lastName: '',
-      email: '',
-      jobTitle: '',
-      department: ''
-    };
+    return saved
+      ? JSON.parse(saved)
+      : {
+          firstName: '',
+          lastName: '',
+          email: '',
+          jobTitle: '',
+          department: ''
+        };
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -47,7 +49,9 @@ function EmployeeForm() {
       return;
     }
 
-    console.log('Form submitted:', formData);
+    // Pass the data up to App.js
+    onSubmit(formData);
+
     setSubmitted(true);
     setError(false);
 
@@ -71,23 +75,48 @@ function EmployeeForm() {
 
       <label>
         First Name:
-        <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
+        <input
+          type="text"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Last Name:
-        <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
+        <input
+          type="text"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Email:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Job Title:
-        <input type="text" name="jobTitle" value={formData.jobTitle} onChange={handleChange} />
+        <input
+          type="text"
+          name="jobTitle"
+          value={formData.jobTitle}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Department:
-        <input type="text" name="department" value={formData.department} onChange={handleChange} />
+        <input
+          type="text"
+          name="department"
+          value={formData.department}
+          onChange={handleChange}
+        />
       </label>
       <button type="submit">Submit</button>
     </form>
