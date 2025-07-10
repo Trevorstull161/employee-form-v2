@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import EmployeeForm from './components/EmployeeForm';
-import EmployeeList from './EmployeeList';
+import EmployeeList from './components/EmployeeList';
 
 function App() {
   const [employees, setEmployees] = useState([]);
